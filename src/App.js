@@ -1,6 +1,6 @@
 import React from 'react'
 import Main from './layout/Main'
-import { NotFound } from './pages/index'
+import { Home } from './pages'
 import routes from './routes'
 import emitter from './utils/emitter'
 
@@ -33,7 +33,7 @@ export default class App extends React.Component {
   }
 
   render() {
-    const ChildView = routes[this.state.currentRoute] || NotFound
+    const ChildView = routes[this.state.currentRoute] || Home
     return (
       <Main pathname={this.state.currentRoute} onRouteChange={this._handleRouteChange}>
         <ChildView />

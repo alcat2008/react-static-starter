@@ -147,6 +147,7 @@ module.exports = {
     'no-useless-escape': 0, // 不检查escape
     'space-before-function-paren': 0, // 函数括号无空格
 
+    'max-len': [2, 120],
     'no-underscore-dangle': 0, // 允许标识符中有悬空下划线，标识私有/成员方法
     'no-unused-expressions': [2, { 'allowShortCircuit': true}], // 禁止出现未使用过的表达式
     'import/prefer-default-export': 0,

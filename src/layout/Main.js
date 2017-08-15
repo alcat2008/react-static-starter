@@ -5,6 +5,7 @@ import Footer from './Footer'
 import { hidePreloader } from '../utils/preloader'
 
 import '../styles/index.less'
+import './style.less'
 
 export default class App extends React.Component {
   componentDidMount() {

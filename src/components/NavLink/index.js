@@ -1,6 +1,5 @@
 import React from 'react'
-import routes from '../routes'
-import emitter from '../utils/emitter'
+import emitter from '../../utils/emitter'
 
 class NavLink extends React.Component {
   _handleClick = (e) => {
@@ -10,7 +9,7 @@ class NavLink extends React.Component {
     emitter.emit('route-change', href)
     window.history.pushState(
       null,
-      routes[href].displayName,
+      href,
       href
     )
   }

@@ -1,4 +1,5 @@
 import React from 'react'
+import './style.less'
 
 class About extends React.Component {
   render() {

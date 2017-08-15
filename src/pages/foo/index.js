@@ -1,5 +1,6 @@
 
 import React from 'react'
+import './style.less'
 
 class Foo extends React.PureComponent {
   render() {
