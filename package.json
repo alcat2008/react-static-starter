@@ -55,6 +55,7 @@
   "scripts": {
     "start": "node bin/start.js",
     "build": "node bin/build.js",
+    "analyze": "node bin/build.js",
     "eslint": "eslint ./src",
     "eslint-fix": "eslint --fix ./src",
     "lesshint": "lesshint src/styles -r config/lesshint-report.js",
