@@ -88,6 +88,9 @@ const config = {
       // Support React Native Web
       // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
       'react-native': 'react-native-web',
+      'assets': paths.appAssets,
+      'images': paths.appAssets + '/images',
+      // use alternative react lite
       'react': 'preact-compat',
       'react-dom': 'preact-compat',
       // Not necessary unless you consume a module using `createClass`

@@ -1,7 +1,6 @@
 module.exports = {
-  // plugins: ['html'],
+  plugins: ['react'],
   parser: "babel-eslint",
-  extends: "airbnb",
   parserOptions: {
     ecmaVersion: 6,
     ecmaFeatures: { // 其他语言特性
@@ -19,11 +18,12 @@ module.exports = {
   },
 
   globals: { // 全局变量，false代表无法重写
+    React: true,
     document: false,
     navigator: false,
     window: false,
-    "DEBUG": true,
-    "BETA": true,
+    "TEST": true,
+    "PRE": true,
     "__DEV__": false,
     "__PROD__": false,
     "expect": false
@@ -142,22 +142,10 @@ module.exports = {
     'wrap-iife': [2, 'any'], // 立即调用的function必须有括号
     'yield-star-spacing': [2, 'both'], // yield的*前后有空格
     'yoda': [2, 'never'], // 条件中变量在前
-
     'prefer-const': 0, // 能用const场景用const
     'no-useless-escape': 0, // 不检查escape
     'space-before-function-paren': 0, // 函数括号无空格
-
-    'max-len': [2, 120],
-    'no-underscore-dangle': 0, // 允许标识符中有悬空下划线，标识私有/成员方法
-    'no-unused-expressions': [2, { 'allowShortCircuit': true}], // 禁止出现未使用过的表达式
-    'import/prefer-default-export': 0,
-    'import/no-extraneous-dependencies': [2, { 'devDependencies': ['**/*.test.js']}],
-    'jsx-a11y/href-no-hash': 0,
-    'react/jsx-boolean-value': [2, 'always'],
-    'react/prefer-stateless-function': 0,
-    'react/forbid-prop-types': 0,
-    'react/jsx-pascal-case': [1, { ignore: [ ] }],
-    'react/prop-types': 0,
-    'react/jsx-filename-extension': [1, { 'extensions': ['.js', '.jsx'] }],
+    "react/jsx-uses-react": "error",
+    "react/jsx-uses-vars": "error",
   }
 }
