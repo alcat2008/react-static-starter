@@ -1,6 +1,6 @@
 
 // import App from './App';
-import { Home, Foo, About } from './pages'
+import { Home, Vote } from './pages'
 
 // const routes = {
 //   path: '/',
@@ -15,8 +15,7 @@ import { Home, Foo, About } from './pages'
 
 const routes = {
   '/': Home,
-  '/foo': Foo,
-  '/about': About
+  '/vote': Vote,
 }
 
 export default routes

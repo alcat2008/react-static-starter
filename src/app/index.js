@@ -15,4 +15,9 @@ initComponent()
 // expose React for __DEV__
 if (__DEV__) {
   window.React = React
+
+  // hot reload
+  if (module.hot) {
+    module.hot.accept()
+  }
 }

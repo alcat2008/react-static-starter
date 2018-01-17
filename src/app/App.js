@@ -1,8 +1,8 @@
 import React from 'react'
-import Main from './layout/Main'
-import { Home } from './pages'
-import routes from './routes'
-import emitter from './utils/emitter'
+import Main from '../layout/Main'
+import { Home } from '../pages/index'
+import routes from '../routes'
+import emitter from '../utils/emitter'
 
 export default class App extends React.Component {
   constructor(props) {

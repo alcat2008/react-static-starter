@@ -5,6 +5,8 @@
   "private": true,
   "license": "MIT",
   "dependencies": {
+    "antd-mobile": "^2.1.3",
+    "axios": "^0.17.1",
     "preact": "^8.2.1",
     "preact-compat": "^3.17.0",
     "react": "16.2.0",
@@ -15,6 +17,7 @@
     "babel-core": "6.24.1",
     "babel-eslint": "7.2.3",
     "babel-loader": "7.0.0",
+    "babel-plugin-import": "^1.6.3",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",

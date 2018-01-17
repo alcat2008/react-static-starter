@@ -1,7 +1,5 @@
 import React from 'react'
 
-import Header from './Header'
-import Footer from './Footer'
 import { hidePreloader } from '../utils/preloader'
 
 import '../styles/index.less'
@@ -12,13 +10,9 @@ export default class App extends React.Component {
     hidePreloader()
   }
   render() {
-    const { children, ...restProps } = this.props
+    const { children } = this.props
     return (
-      <div>
-        <Header {...restProps} />
-        <div className='content'>{children}</div>
-        <Footer />
-      </div>
+      <div className='content'>{children}</div>
     )
   }
 }
