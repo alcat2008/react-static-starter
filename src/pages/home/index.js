@@ -1,5 +1,5 @@
 import React from 'react'
-import { NavLink } from '../../components'
+import { Link } from 'react-router-dom'
 
 import { Grid, Icon } from 'antd-mobile'
 
@@ -24,12 +24,12 @@ export default class Home extends React.Component {
           data={data}
           columnNum={3}
           renderItem={dataItem => (
-            <NavLink href={dataItem.href}>
+            <Link to={dataItem.href}>
               <div className='grid_content'>
                 <Icon type={dataItem.icon} size='lg' />
                 <p>投票</p>
               </div>
-            </NavLink>
+            </Link>
           )}
         />
       </div>

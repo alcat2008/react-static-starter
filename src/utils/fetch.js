@@ -4,7 +4,7 @@ import { baseUrl } from '../config'
 let fetcher = axios.create({
   method: 'post',
   baseURL: baseUrl,
-  withCredentials: true,
+  // withCredentials: true,
   headers: {
     'Access-Control-Allow-Origin': '*',
     'Content-Type': 'application/json',

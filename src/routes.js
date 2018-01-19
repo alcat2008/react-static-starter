@@ -1,21 +1,20 @@
+import React from 'react'
+import {
+  BrowserRouter as Router,
+  Route,
+} from 'react-router-dom'
 
-// import App from './App';
-import { Home, Vote } from './pages'
+import { Home, Vote, Success, Statistics } from './pages'
 
-// const routes = {
-//   path: '/',
-//   component: App,
-//   indexRoute: { component: Home },
-//   childRoutes: [
-//     { path: 'foo', component: Foo },
-//     { path: 'page:index', component: SubPage },
-//     { path: '*', component:  },
-//   ]
-// };
+import { bundle } from './app/bundle'
 
-const routes = {
-  '/': Home,
-  '/vote': Vote,
-}
-
-export default routes
+export default () => (
+  <Router>
+    <div>
+      <Route exact path='/' component={Home}/>
+      <Route exact path='/vote' component={Vote}/>
+      <Route exact path='/success' component={Success}/>
+      <Route exact path='/statistics' component={bundle(Statistics)}/>
+    </div>
+  </Router>
+)
