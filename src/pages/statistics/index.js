@@ -1,31 +1,53 @@
 /* eslint-disable */
 import React, { Component } from 'react'
-import { Chart, Geom, Axis, Tooltip, Coord, Label, Legend, View, Guide, Shape } from 'bizcharts';
+import { Chart, Geom, Axis, Tooltip, Coord, Label, Legend, View, Guide, Shape } from 'bizcharts'
+import DataSet from '@antv/data-set'
+import { Categoties } from '../vote'
+
 import fetch from '../../utils/fetch'
 import './statistics.less'
+
 const VOTE_URL_QUERY = '/api/vote/query'
 
-const data = [{ country:'中国',cost:96},{country:'德国',cost:121},{country:'美国',cost:100},{country:'日本',cost:111},{country:'韩国',cost:102}];
-const cols = {
-  'cost': {
-    min: 0
-  }
-}
+const { DataView } = DataSet
 
 class Statistics extends Component {
   constructor(props) {
     super(props)
     // initial state
     this.state = {
-      data: []
+      data: [],
+      dv: null,
+      dv1: null,
     }
   }
 
   componentWillMount() {
     fetch(VOTE_URL_QUERY)
       .then(res => {
-        const finalData = res
-        this.setState({ data: finalData })
+        const finalData = []
+        Object.keys(Categoties).forEach(category => {
+          finalData.push(...res[category].map(item => ({
+            value: item.count, type: Categoties[category], name: item.label
+          })))
+        })
+
+        const dv = new DataView();
+        dv.source(finalData).transform({
+          type: 'percent',
+          field: 'value',
+          dimension: 'type',
+          as: 'percent'
+        });
+        const dv1 = new DataView();
+        dv1.source(finalData).transform({
+          type: 'percent',
+          field: 'value',
+          dimension: 'name',
+          as: 'percent'
+        });
+
+        this.setState({ data: finalData, dv, dv1 })
       })
   }
 
@@ -33,33 +55,61 @@ class Statistics extends Component {
   }
 
   render() {
+    const { data, dv, dv1 } = this.state
+    if (data.length === 0) return null
+
+    const cols = {
+      percent: {
+        formatter: val => {
+          val = (val * 100).toFixed(2) + '%';
+          return val;
+        }
+      }
+    }
+
     return (
       <div className='statistic_page'>
-        <Chart height={window.innerHeight} data={data} scale={cols} padding={[ 40, 40, 130, 40 ]} forceFit>
-          <Coord type="polar" />
-          <Axis name="cost" label={null} tickLine={null} line={{
-            stroke: '#E9E9E9',
-            lineDash: [ 3, 3 ]
-          }} />
-          <Axis name="country" grid={{
-            align: 'center'
-          }} tickLine={null} label={{
-            Offset: 10,
-            textStyle: {
-              textAlign: 'center' // 设置坐标轴 label 的文本对齐方向
-            }
-          }} />
-          <Legend name="country" itemWidth={30} />
-          <Tooltip />
-          <Geom type='interval' position='country*cost' color='country' style={{
-            lineWidth: 1,
-            stroke: '#fff'
-          }}>
-            <Label content="cost" offset={-15} textStyle={{textAlign: 'center',
-              fontWeight: 'bold',
-              fontSize: 11
-            }}/>
+        <Chart height={window.innerHeight} data={dv} scale={cols} padding={[ 80, 100, 80, 80 ]} forceFit>
+          <Coord type='theta' radius={0.5} />
+          <Tooltip
+            showTitle={false}
+            itemTpl='<li><span style="background-color:{color};" class="g2-tooltip-marker"></span>{name}: {value}</li>'
+          />
+          <Geom
+            type="intervalStack"
+            position="percent"
+            color='type'
+            tooltip={['name*percent',(item, percent) => {
+              percent = (percent * 100).toFixed(2) + '%';
+              return {
+                name: item,
+                value: percent
+              };
+            }]}
+            style={{lineWidth: 1,stroke: '#fff'}}
+            select={false}
+          >
+            <Label content='type' offset={-10} />
           </Geom>
+          <View data={dv1} scale={cols} >
+            <Coord type='theta' radius={0.75} innerRadius={0.5 / 0.75}/>
+            <Geom
+              type="intervalStack"
+              position="percent"
+              color={['name', [ '#BAE7FF', '#7FC9FE', '#71E3E3', '#ABF5F5', '#8EE0A1', '#BAF5C4' ]]}
+              tooltip={['name*percent',(item, percent) => {
+                percent = (percent * 100).toFixed(2) + '%';
+                return {
+                  name: item,
+                  value: percent
+                };
+              }]}
+              style={{lineWidth: 1,stroke: '#fff'}}
+              select={false}
+            >
+              <Label content='name'/>
+            </Geom>
+          </View>
         </Chart>
       </div>
     )

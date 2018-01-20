@@ -1,5 +1,6 @@
 
 import React from 'react'
+import { withRouter } from 'react-router-dom'
 import { List, Radio, Button, WhiteSpace, WingBlank, Toast } from 'antd-mobile'
 import './vote.less'
 
@@ -12,7 +13,14 @@ const VOTE_URL_ADD = '/api/vote/add'
 
 const RadioItem = Radio.RadioItem
 
-const DataSource = {
+export const Categoties = {
+  indoor: '室内项目',
+  esport: '电子竞技',
+  outdoor: '户外活动',
+  online: '桌游、推理',
+}
+
+export const DataSource = {
   indoor: [
     { key: 0, value: 'basketball', label: '篮球' },
     { key: 1, value: 'football', label: '足球' },
@@ -70,7 +78,8 @@ class Vote extends React.Component {
     this.setState({ loading: true }, () => {
       fetch(VOTE_URL_ADD, finalSelect)
         .then(res => {
-          location.replace('/success')
+          this.props.history.replace('/success')
+          // location.replace('/success')
         })
         .catch(error => {
           this.setState({ loading: false })
@@ -89,41 +98,20 @@ class Vote extends React.Component {
           <img src={imgLangrensha} alt='langrensha' />
         </div>
 
-        <WhiteSpace size='lg' />
-        <List renderHeader={() => '室内项目'}>
-          {DataSource.indoor.map((item, index) => (
-            <RadioItem key={item.key} checked={indoorValue === item.value} onChange={() => this._handleChange('indoor', index)}>
-              {item.label}
-            </RadioItem>
-          ))}
-        </List>
-
-        <WhiteSpace size='lg' />
-        <List renderHeader={() => '电子竞技'}>
-          {DataSource.esport.map((item, index) => (
-            <RadioItem key={item.key} checked={esportValue === item.value} onChange={() => this._handleChange('esport', index)}>
-              {item.label}
-            </RadioItem>
-          ))}
-        </List>
-
-        <WhiteSpace size='lg' />
-        <List renderHeader={() => '户外活动'}>
-          {DataSource.outdoor.map((item, index) => (
-            <RadioItem key={item.key} checked={outdoorValue === item.value} onChange={() => this._handleChange('outdoor', index)}>
-              {item.label}
-            </RadioItem>
-          ))}
-        </List>
-
-        <WhiteSpace size='lg' />
-        <List renderHeader={() => '桌游、推理'}>
-          {DataSource.online.map((item, index) => (
-            <RadioItem key={item.key} checked={onlineValue === item.value} onChange={() => this._handleChange('online', index)}>
-              {item.label}
-            </RadioItem>
-          ))}
-        </List>
+        {
+          Object.keys(Categoties).map(category => (
+            <div key={category}>
+              <WhiteSpace size='lg' />
+              <List renderHeader={Categoties[category]}>
+                {DataSource[category].map((item, index) => (
+                  <RadioItem key={item.key} checked={this.state[`${category}Value`] === item.value} onChange={() => this._handleChange(category, index)}>
+                    {item.label}
+                  </RadioItem>
+                ))}
+              </List>
+            </div>
+          ))
+        }
 
         <WhiteSpace size='lg' />
         <WingBlank size='md'>
@@ -139,7 +127,6 @@ class Vote extends React.Component {
   }
 }
 
-Vote.propTypes = {
-}
+Vote.propTypes = {}
 
-export default Vote
+export default withRouter(Vote)
