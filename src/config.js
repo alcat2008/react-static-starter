@@ -1,7 +1,7 @@
 let baseUrl = 'http://localhost:3003/'
 
 if (process.env.NODE_ENV === 'production') {
-  baseUrl = 'http://localhost:3003/'
+  baseUrl = 'http://' + location.host + ':3003/'
   // if (TEST) {
   //   console.log('in TEST')
   //   baseUrl = 'http://47.100.7.33:8038'

@@ -51,25 +51,13 @@ class Statistics extends Component {
       })
   }
 
-  componentDidMount() {
-  }
-
   render() {
     const { data, dv, dv1 } = this.state
     if (data.length === 0) return null
 
-    const cols = {
-      percent: {
-        formatter: val => {
-          val = (val * 100).toFixed(2) + '%';
-          return val;
-        }
-      }
-    }
-
     return (
       <div className='statistic_page'>
-        <Chart height={window.innerHeight} data={dv} scale={cols} padding={[ 80, 100, 80, 80 ]} forceFit>
+        <Chart height={window.innerHeight} data={dv} padding={[ 80, 100, 80, 80 ]} forceFit>
           <Coord type='theta' radius={0.5} />
           <Tooltip
             showTitle={false}
@@ -91,7 +79,7 @@ class Statistics extends Component {
           >
             <Label content='type' offset={-10} />
           </Geom>
-          <View data={dv1} scale={cols} >
+          <View data={dv1} >
             <Coord type='theta' radius={0.75} innerRadius={0.5 / 0.75}/>
             <Geom
               type="intervalStack"

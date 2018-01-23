@@ -21,7 +21,7 @@ function add(info) {
         //   id: 0,
         // };
         // const finalInfo = infos.map(info => ({ id: info, time: new Date() }))
-        const finalInfo = Object.assign(info, { time: new Date() })
+        const finalInfo = Object.assign(info, { comment: info.comment && info.comment.trim(), time: new Date() })
         console.log(finalInfo)
 
         // 2. 插入数据
@@ -110,4 +110,37 @@ function query() {
   })
 }
 
-module.exports = { addVote: add, queryVote: query }
+function queryComments() {
+  console.log('***  query vote comments  ***')
+  return new Promise((resolve, reject) => {
+    MongoClient.connect(mongodbUrl, (err, db) => {
+      if (err) {
+        console.error('MongoDB connect error: ', mongodbUrl)
+        reject(err)
+      } else {
+        // 1. 连接到表
+        const collection = db.collection(COLLECTION_NAME)
+
+        // 2. 查询数据
+        collection.find().toArray((dbErr, result) => {
+          if (dbErr) {
+            console.error('Error:' + dbErr)
+            reject(dbErr)
+          } else {
+            console.log(result)
+
+            const comments = result.filter(item => item.comment).map(item => item.comment)
+
+            console.log(comments)
+            resolve(comments)
+          }
+        })
+
+        // 3. 释放连接
+        db && db.close()
+      }
+    })
+  })
+}
+
+module.exports = { addVote: add, queryVote: query, queryVoteComments: queryComments }

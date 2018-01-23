@@ -1,13 +1,14 @@
 
 import React from 'react'
 import { withRouter } from 'react-router-dom'
-import { List, Radio, Button, WhiteSpace, WingBlank, Toast } from 'antd-mobile'
+import { List, Radio, Button, WhiteSpace, WingBlank, Toast, TextareaItem } from 'antd-mobile'
 import './vote.less'
 
+import SectionHeader from './SectionHeader'
 import fetch from '../../utils/fetch'
 
-import imgNongyao from 'images/nongyao.webp'
-import imgLangrensha from 'images/langrensha.webp'
+import imgNongyao from 'images/nongyao.jpeg'
+import imgLangrensha from 'images/langrensha.png'
 
 const VOTE_URL_ADD = '/api/vote/add'
 
@@ -57,7 +58,12 @@ class Vote extends React.Component {
       esportValue: '',
       outdoorValue: '',
       onlineValue: '',
+      comment: ''
     }
+  }
+
+  componentDidMount() {
+    this._vote && this._vote.scrollIntoView()
   }
 
   _handleChange = (category, index) => {
@@ -66,13 +72,20 @@ class Vote extends React.Component {
     })
   }
 
+  _handleComentChange = value => {
+    this.setState({
+      comment: value
+    })
+  }
+
   _handleSubmit = () => {
-    const { indoorValue, esportValue, outdoorValue, onlineValue } = this.state
+    const { indoorValue, esportValue, outdoorValue, onlineValue, comment } = this.state
     const finalSelect = {
       indoor: indoorValue,
       esport: esportValue,
       outdoor: outdoorValue,
       online: onlineValue,
+      comment,
     }
 
     this.setState({ loading: true }, () => {
@@ -89,20 +102,21 @@ class Vote extends React.Component {
   }
 
   render() {
-    const { loading, indoorValue, esportValue, outdoorValue, onlineValue } = this.state
+    const { loading, indoorValue, esportValue, outdoorValue, onlineValue, comment } = this.state
     return (
-      <div className='vote_page'>
+      <div className='vote_page' ref={ref => { this._vote = ref }}>
         <div className='tacitly'>
-          <p>内定项目 <span>就是这么火爆</span></p>
-          <img src={imgNongyao} alt='nongyao' />
-          <img src={imgLangrensha} alt='langrensha' />
+          <div className='wrapper'>
+            <p>内定项目 <span> - 就是这么火爆</span></p>
+            <img src={imgNongyao} alt='nongyao' />
+            <img src={imgLangrensha} alt='langrensha' />
+          </div>
         </div>
 
         {
           Object.keys(Categoties).map(category => (
             <div key={category}>
-              <WhiteSpace size='lg' />
-              <List renderHeader={Categoties[category]}>
+              <List renderHeader={<SectionHeader title={Categoties[category]} />}>
                 {DataSource[category].map((item, index) => (
                   <RadioItem key={item.key} checked={this.state[`${category}Value`] === item.value} onChange={() => this._handleChange(category, index)}>
                     {item.label}
@@ -113,6 +127,19 @@ class Vote extends React.Component {
           ))
         }
 
+        <div className='am-list-header'>
+          <SectionHeader title='我是佛系少年' />
+        </div>
+        <TextareaItem
+          placeholder='说点啥？'
+          clear
+          autoHeight
+          // rows={3}
+          count={50}
+          value={comment}
+          onChange={this._handleComentChange}
+        />
+
         <WhiteSpace size='lg' />
         <WingBlank size='md'>
           <Button
@@ -122,6 +149,7 @@ class Vote extends React.Component {
             onClick={this._handleSubmit}
           >提交</Button>
         </WingBlank>
+        <WhiteSpace size='lg' />
       </div>
     )
   }
